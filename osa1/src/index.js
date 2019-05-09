@@ -18,11 +18,9 @@ const Content = (props) => {
 }
 
 const Part = (props) => {
-    const split = props.part.split(":")
-
     return (
         <p>
-            {split[0]} {split[1]}
+            {props.part.name} {props.part.exercises}
         </p>
     )
 }
@@ -38,20 +36,26 @@ const Total = (props) => {
 const App = () => {
   const course = 'Half Stack -sovelluskehitys'
 
-  const part1 = 'Reactin perusteet'
-  const exercises1 = 10
-  const part2 = 'Tiedonvälitys propseilla'
-  const exercises2 = 7
-  const part3 = 'Komponenttien tila'
-  const exercises3 = 14
+  const part1 = {
+    name: 'Reactin perusteet',
+    exercises: 10
+  }
+  const part2 = {
+    name: 'Tiedonvälitys propseilla',
+    exercises: 7
+  }
+  const part3 = {
+    name: 'Komponenttien tila',
+    exercises: 14
+  }
 
   return (
     <div>
         <Header course={course} />
 
-        <Content part1={part1+":"+exercises1} part2={part2+":"+exercises2} part3={part3+":"+exercises3} />
+        <Content part1={part1} part2={part2} part3={part3} />
 
-        <Total total={exercises1 + exercises2 + exercises3} />
+        <Total total={part1.exercises + part2.exercises + part3.exercises} />
     </div>
   )
 }
