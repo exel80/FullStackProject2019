@@ -10,7 +10,7 @@ const Statistic = props => {
   )
 }
 
-const Stats = ({stats}) => {
+const Stats = ({ stats }) => {
   const yhteensa = stats.reduce((prev, next) => prev + next.arvo, 0)
 
   const keskiarvo = stats.reduce((prev, next) => {
@@ -39,8 +39,8 @@ const Stats = ({stats}) => {
         <Statistic text='neutraali' stats={stats[1].arvo} />
         <Statistic text='huono' stats={stats[2].arvo} />
         <Statistic text='yhteensä' stats={yhteensa} />
-        <Statistic text='keskiarvo' stats={yhteensa > 0 ? keskiarvo/yhteensa : 0} />
-        <Statistic text='positiivisia' stats={yhteensa > 0 ? (positiivisia/yhteensa)*100 : 0} suffix='%' />
+        <Statistic text='keskiarvo' stats={yhteensa > 0 ? keskiarvo / yhteensa : 0} />
+        <Statistic text='positiivisia' stats={yhteensa > 0 ? (positiivisia / yhteensa) * 100 : 0} suffix='%' />
       </tbody>
     </table>
   )
