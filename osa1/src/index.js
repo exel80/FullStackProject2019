@@ -7,14 +7,13 @@ const Header = props => {
 
 const Content = props => {
   // Puskee kaikki parts objectissa olevat omaan listaan
-  const partsList = [];
   for (let i = 0; i < props.parts.length; i++) {
-    partsList.push(<Part key={i} part={props.parts[i]} />);
+    props.partsList.push(<Part key={i} part={props.parts[i]} />);
   }
 
   return (
     <div>
-      {partsList}
+      {props.partsList}
       {/* <Part part={props.parts.parts[0]} />
             <Part part={props.parts.parts[0]} />
             <Part part={props.parts.parts[0]} /> */}
@@ -61,11 +60,13 @@ const App = () => {
     ]
   };
 
+  const partsList = [];
+
   return (
     <div>
       <Header course={course.name} />
 
-      <Content parts={course.parts} />
+      <Content parts={course.parts} partsList={partsList} />
 
       <Total parts={course.parts} />
     </div>
