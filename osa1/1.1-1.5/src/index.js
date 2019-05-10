@@ -1,14 +1,14 @@
-import React from "react";
-import ReactDOM from "react-dom";
+import React from "react"
+import ReactDOM from "react-dom"
 
 const Header = props => {
-  return <h1>{props.course}</h1>;
-};
+  return <h1>{props.course}</h1>
+}
 
 const Content = props => {
   // Puskee kaikki parts objectissa olevat omaan listaan
   for (let i = 0; i < props.parts.length; i++) {
-    props.partsList.push(<Part key={i} part={props.parts[i]} />);
+    props.partsList.push(<Part key={i} part={props.parts[i]} />)
   }
 
   return (
@@ -18,16 +18,16 @@ const Content = props => {
             <Part part={props.parts.parts[0]} />
             <Part part={props.parts.parts[0]} /> */}
     </div>
-  );
-};
+  )
+}
 
 const Part = props => {
   return (
     <p>
       {props.part.name} {props.part.exercises}
     </p>
-  );
-};
+  )
+}
 
 const Total = props => {
   return (
@@ -38,8 +38,8 @@ const Total = props => {
         props.parts[2].exercises}{" "}
       tehtävää
     </p>
-  );
-};
+  )
+}
 
 const App = () => {
   const course = {
@@ -58,9 +58,9 @@ const App = () => {
         exercises: 14
       }
     ]
-  };
+  }
 
-  const partsList = [];
+  const partsList = []
 
   return (
     <div>
@@ -70,7 +70,7 @@ const App = () => {
 
       <Total parts={course.parts} />
     </div>
-  );
-};
+  )
+}
 
-ReactDOM.render(<App />, document.getElementById("root"));
+ReactDOM.render(<App />, document.getElementById("root"))
