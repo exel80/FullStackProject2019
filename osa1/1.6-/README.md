@@ -1,4 +1,10 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Tehtävät jotka on tehty tähä kansioon:
+ - 1.6
+ - 1.7
+ - 1.8
+ - 1.9
+ - 1.10
+ - 1.11*
 
 ## Available Scripts
 
