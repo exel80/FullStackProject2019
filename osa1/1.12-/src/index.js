@@ -1,16 +1,67 @@
 import React, { useState } from 'react'
 import ReactDOM from 'react-dom'
 
-const randomNext = (anecdotes) =>
-  Math.round(0 + Math.random() * ((anecdotes.length - 1) - 0))
+const MostVotes = ({points}) => {
+
+  var i
+  for (i in points) {
+    console.log(highest);
+    
+    if (points[i] > highest) {
+      highest = points[i]
+      
+    }
+  }
+
+  console.log(highest, points[i], i)
+  
+
+  console.log("isoin ->", '');
+
+  return <p>asd</p>
+}
 
 const App = (props) => {
   const [selected, setSelected] = useState(0)
+  const [points, setPoints] = useState({})
+
+  const randomNext = (anecdotes) =>
+    Math.round(0 + Math.random() * ((anecdotes.length - 1) - 0))
+
+  const setNewPoints = () =>  {
+    const copy = {...points}
+    if (!copy[selected])
+      copy[selected] = 1
+    else
+      copy[selected] += 1
+
+    setPoints({...copy})
+  }
+
+  const mostVotes = () => {
+    for (let i = 0; i < 3; i++)
+      console.log(points[0]);
+      
+    return <p>asd</p>
+  }
+
+  const getPoints = () => 
+    <p>has {points[selected] === undefined ? 0 : points[selected]} vote(s)</p>
+    
+  console.log("->",points);
 
   return (
     <div>
-      <p>{props.anecdotes[selected]}</p>
-      <p><button onClick={() => setSelected( randomNext(anecdotes) )}>Next (random) >></button></p>
+      <h1>Anecdote of the day</h1>
+      <p>{props.anecdotes[selected]} {selected}</p>
+      {getPoints()} 
+      <p>
+        <button onClick={() => setNewPoints()}>vote</button>
+        <button onClick={() => setSelected( randomNext(anecdotes) )}>Next (random) >></button>
+      </p>
+
+      <h1>Anecdote with most votes</h1>
+      <MostVotes points={points} />
     </div>
   )
 }
