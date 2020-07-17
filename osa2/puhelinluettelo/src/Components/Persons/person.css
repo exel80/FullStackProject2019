@@ -1,0 +1,11 @@
+p:hover {
+    text-decoration: line-through;
+    cursor: pointer;
+}
+
+.form-container {
+    width: 230px;
+
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+}
