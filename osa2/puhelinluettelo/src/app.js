@@ -2,12 +2,14 @@ import React, { useState, useEffect } from 'react'
 import noteService from './services'
 
 import Persons, { PersonForm, PersonSearch } from './Components/Persons'
+import Notify from './Components/Notify'
 
 const App = () => {
     const [persons, setPersons] = useState([])
     const [newName, setNewName] = useState('')
     const [newPhone, setNewPhone] = useState('+358 ')
     const [search, setSearch] = useState('')
+    const [message, setMessage] = useState([null])
 
     useEffect(() => {
         noteService
@@ -18,7 +20,10 @@ const App = () => {
     const createAction = (data) => {
         noteService
             .create(data)
-            .then((resp) => setPersons(prev => [...prev, resp.data]))
+            .then((resp) => {
+                setMessage([`'${resp.data?.name}' has been added`])
+                setPersons(prev => [...prev, resp.data])
+            })
     }
 
     const updateAction = (id, phone) => {
@@ -27,7 +32,10 @@ const App = () => {
 
         noteService
             .update(target.id, updatePhone)
-            .then(resp => setPersons(persons.map(p => p.id !== id ? p : updatePhone)))
+            .then(resp => {
+                setMessage([`'${target?.name}' has been updated`, 'sandybrown'])
+                setPersons(persons.map(p => p.id !== id ? p : updatePhone))
+            })
     }
 
     const deleteAction = (id) => {
@@ -36,13 +44,18 @@ const App = () => {
         noteService
             .remove(id, target)
             .then(resp => {
-                console.log(resp);
+                setMessage([`'${target?.name}' has been removed`])
                 setPersons(persons.map(p => p.id !== id ? p : resp))
             })
             .catch(error => {
-                console.log(
-                    `the person '${target?.name}' was already deleted from server`, target
+                setMessage(
+                    [`the person '${target?.name}' was already deleted from server`, 'red']
                 )
+
+                setTimeout(() => {
+                    setMessage([null])
+                  }, 5000)
+
                 setPersons(persons.filter(p => p.id !== id))
             })
     }
@@ -88,6 +101,8 @@ const App = () => {
 
     return (
         <div>
+            <Notify message={message} />
+
             <h2>Phonebook</h2>
             <PersonSearch search={search} onChange={onChange.bind(this)} />
 
