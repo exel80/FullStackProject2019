@@ -1,5 +1,4 @@
-p:hover {
-    text-decoration: line-through;
+button:hover {
     cursor: pointer;
 }
 

@@ -11,11 +11,6 @@
       "id": 2
     },
     {
-      "name": "Dan Abramov",
-      "phone": "12-43-234345",
-      "id": 3
-    },
-    {
       "name": "Mary Poppendieck",
       "phone": "39-23-6423122",
       "id": 4
@@ -24,21 +19,6 @@
       "name": "asd",
       "phone": "+358 1",
       "id": 5
-    },
-    {
-      "name": "asdf",
-      "phone": "+358 5",
-      "id": 6
-    },
-    {
-      "name": "ffff",
-      "phone": "+358 1",
-      "id": 7
-    },
-    {
-      "name": "sad",
-      "phone": "+358 1",
-      "id": 8
     }
   ]
 }

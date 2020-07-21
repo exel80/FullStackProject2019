@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import axios from 'axios'
+import noteService from './services'
 
 import Persons, { PersonForm, PersonSearch } from './Components/Persons'
 
@@ -10,44 +10,64 @@ const App = () => {
     const [search, setSearch] = useState('')
 
     useEffect(() => {
-        axios.get("http://localhost:3001/persons")
+        noteService
+            .getAll()
             .then(resp => setPersons(resp.data))
     }, [])
 
-    const pushUpdate = (data) => {
-        setPersons(prev => [...prev, data])
-
-        axios.post("http://localhost:3001/persons", data)
-            .then((resp) => console.log(resp))
+    const createAction = (data) => {
+        noteService
+            .create(data)
+            .then((resp) => setPersons(prev => [...prev, resp.data]))
     }
 
-    const pushDelete = (data) => {
-        let _persons = persons.filter(p => p.name !== data.name)
-        setPersons(_persons)
+    const updateAction = (id, phone) => {
+        const target = persons.find(p => p.id === id)
+        const updatePhone = {...target, phone: phone}
 
-        //TODO: Remove from JSON server
+        noteService
+            .update(target.id, updatePhone)
+            .then(resp => setPersons(persons.map(p => p.id !== id ? p : updatePhone)))
+    }
+
+    const deleteAction = (id) => {
+        const target = persons.find(p => p.id === id)
+
+        noteService
+            .remove(id, target)
+            .then(resp => {
+                console.log(resp);
+                setPersons(persons.map(p => p.id !== id ? p : resp))
+            })
+            .catch(error => {
+                console.log(
+                    `the person '${target?.name}' was already deleted from server`, target
+                )
+                setPersons(persons.filter(p => p.id !== id))
+            })
     }
 
     const onSubmit = (event) => {
         event.preventDefault()
 
-        // Check if name already exists in phonebook
+        // Check if name already exists in phonebook.
+        // If exist, confirm if user want to update phone number
         if (persons.filter(p => p.name === newName).length >= 1) {
-            alert(`${newName} is already added to phonebook`)
-            return
+            if (!window.confirm(`${newName} is already added to phonebook. Do you want to update phone number?`))
+                return
+
+            const target = persons.find(p => p.name === newName)
+
+            updateAction(target.id, newPhone)
         }
         // Check if name is emtpy
-        else if (newName.length <= 0) {
+        else if (newName.length <= 0)
             alert('Name cannot be empty')
-            return
-        }
         // Check if phone is default/empty
-        else if (newPhone.trim().length <= 4) {
+        else if (newPhone.trim().length <= 4)
             alert('Phone number cannot be empty')
-            return
-        }
-
-        pushUpdate({ name: newName, phone: newPhone })
+        else
+            createAction({ name: newName, phone: newPhone })
     }
 
     const onChange = (event) => {
@@ -75,7 +95,7 @@ const App = () => {
             <PersonForm newName={newName} newPhone={newPhone} onChange={onChange.bind(this)} onSubmit={onSubmit.bind(this)} />
 
             <h2>Numbers</h2>
-            <Persons search={search} persons={persons} pushDelete={pushDelete.bind(this)} />
+            <Persons search={search} persons={persons} pushDelete={deleteAction.bind(this)} />
         </div>
     )
 
